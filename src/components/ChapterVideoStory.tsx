@@ -12,14 +12,20 @@ type ChapterVideoStoryProps = {
   stages: ChapterVideoStage[];
 };
 
-const touchThreshold = 38;
 const chapterPlaybackRate = 1.25;
 const pausePadding = 0.035;
-const slowScrubSecondsPerWheelPixel = 0.018;
-const fastGestureDelta = 95;
-const fastGestureWindowMs = 140;
-const scrollStopSettleMs = 450;
+const wheelStepUnlockMs = 900;
+const touchHoldScrubDelayMs = 140;
+const touchFlickMinDistance = 42;
+const touchFlickVelocity = 0.52;
 const magneticChapterProgress = 0.08;
+
+type TouchGesture = {
+  startY: number;
+  startProgress: number;
+  startedAt: number;
+  scrubbing: boolean;
+};
 
 function useReducedMotionPreference() {
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -107,6 +113,17 @@ function getWheelDeltaY(event: WheelEvent) {
   return event.deltaY;
 }
 
+function getTouchDragProgress(startProgress: number, deltaY: number, stageCount: number, viewportHeight: number) {
+  if (stageCount <= 1) {
+    return 0;
+  }
+
+  const pixelsPerChapter = Math.max(320, viewportHeight);
+  const chapterDelta = deltaY / pixelsPerChapter;
+
+  return Math.min(1, Math.max(0, startProgress + chapterDelta / (stageCount - 1)));
+}
+
 function formatStageId(id: string) {
   return id.replaceAll("-", " ");
 }
@@ -139,10 +156,10 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
   const railProgressRef = useRef(0);
   const playingRef = useRef(false);
   const rafRef = useRef<number | null>(null);
-  const scrollStopTimerRef = useRef<number | null>(null);
-  const touchStartYRef = useRef<number | null>(null);
+  const wheelStepUnlockTimerRef = useRef<number | null>(null);
+  const touchGestureRef = useRef<TouchGesture | null>(null);
   const railDragRef = useRef<{ pointerId: number; progress: number } | null>(null);
-  const wheelGestureRef = useRef<{ startedAt: number; delta: number }>({ startedAt: 0, delta: 0 });
+  const wheelStepLockedRef = useRef(false);
   const scrubbingRef = useRef(false);
   const autoIntroStartedRef = useRef(false);
   const userInteractedRef = useRef(false);
@@ -193,12 +210,20 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
     }
   }, []);
 
-  const clearScrollStopTimer = useCallback(() => {
-    if (scrollStopTimerRef.current !== null) {
-      window.clearTimeout(scrollStopTimerRef.current);
-      scrollStopTimerRef.current = null;
+  const unlockWheelStep = useCallback(() => {
+    if (wheelStepUnlockTimerRef.current !== null) {
+      window.clearTimeout(wheelStepUnlockTimerRef.current);
+      wheelStepUnlockTimerRef.current = null;
     }
+
+    wheelStepLockedRef.current = false;
   }, []);
+
+  const lockWheelStep = useCallback(() => {
+    unlockWheelStep();
+    wheelStepLockedRef.current = true;
+    wheelStepUnlockTimerRef.current = window.setTimeout(unlockWheelStep, wheelStepUnlockMs);
+  }, [unlockWheelStep]);
 
   const settleAt = useCallback(
     (index: number) => {
@@ -206,7 +231,7 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
       const nextIndex = clampIndex(index, stages);
       const nextTime = stages[nextIndex]?.time ?? 0;
 
-      clearScrollStopTimer();
+      unlockWheelStep();
       stopAnimation();
       playingRef.current = false;
       scrubbingRef.current = false;
@@ -222,7 +247,7 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
         video.currentTime = Math.min(config.duration - 0.05, nextTime);
       }
     },
-    [clearScrollStopTimer, config.duration, stages, stopAnimation, syncRailProgress],
+    [config.duration, stages, stopAnimation, syncRailProgress, unlockWheelStep],
   );
 
   const scrubToProgress = useCallback(
@@ -261,59 +286,9 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
     settleAt(magneticIndex);
   }, [settleAt, stages]);
 
-  const scheduleScrollStopSettle = useCallback(() => {
-    clearScrollStopTimer();
-
-    scrollStopTimerRef.current = window.setTimeout(() => {
-      scrollStopTimerRef.current = null;
-
-      if (!playingRef.current && scrubbingRef.current && !railDragRef.current) {
-        settleNearChapter();
-      }
-    }, scrollStopSettleMs);
-  }, [clearScrollStopTimer, settleNearChapter]);
-
-  const scrubByWheelDelta = useCallback(
-    (deltaY: number) => {
-      const video = videoRef.current;
-
-      if (!video || stages.length < 2) {
-        return;
-      }
-
-      const startTime = stages[0]?.time ?? 0;
-      const finalStageTime = stages[stages.length - 1]?.time ?? config.duration;
-      const endTime = Math.min(config.duration - 0.05, finalStageTime);
-      const nextTime = Math.min(endTime, Math.max(startTime, video.currentTime + deltaY * slowScrubSecondsPerWheelPixel));
-
-      video.pause();
-      video.playbackRate = 1;
-      video.currentTime = nextTime;
-      scrubToProgress(getRailProgress(nextTime, stages), true);
-      scheduleScrollStopSettle();
-    },
-    [config.duration, scheduleScrollStopSettle, scrubToProgress, stages],
-  );
-
-  const shouldUseFastGesture = useCallback((deltaY: number) => {
-    const now = performance.now();
-    const previousGesture = wheelGestureRef.current;
-    const previousDirection = Math.sign(previousGesture.delta);
-    const nextDirection = Math.sign(deltaY);
-
-    if (
-      now - previousGesture.startedAt > fastGestureWindowMs ||
-      (previousDirection !== 0 && nextDirection !== 0 && previousDirection !== nextDirection)
-    ) {
-      wheelGestureRef.current = { startedAt: now, delta: deltaY };
-    } else {
-      wheelGestureRef.current = {
-        startedAt: previousGesture.startedAt || now,
-        delta: previousGesture.delta + deltaY,
-      };
-    }
-
-    return Math.abs(deltaY) >= fastGestureDelta || Math.abs(wheelGestureRef.current.delta) >= fastGestureDelta;
+  const finishFreeScrub = useCallback(() => {
+    scrubbingRef.current = false;
+    setIsScrubbing(false);
   }, []);
 
   const animateBackward = useCallback(
@@ -398,7 +373,6 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
         return;
       }
 
-      clearScrollStopTimer();
       stopAnimation();
       video.pause();
       video.playbackRate = 1;
@@ -422,7 +396,7 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
 
       animateBackward(clampedIndex);
     },
-    [animateBackward, clearScrollStopTimer, playForward, reducedMotion, settleAt, stages, stopAnimation],
+    [animateBackward, playForward, reducedMotion, settleAt, stages, stopAnimation],
   );
 
   const step = useCallback(
@@ -451,10 +425,10 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
       event.currentTarget.setPointerCapture(event.pointerId);
       railDragRef.current = { pointerId: event.pointerId, progress: nextProgress };
       setIsRailDragging(true);
-      clearScrollStopTimer();
+      unlockWheelStep();
       scrubToProgress(nextProgress, true);
     },
-    [clearScrollStopTimer, getProgressFromRailPointer, markUserInteraction, reducedMotion, scrubToProgress],
+    [getProgressFromRailPointer, markUserInteraction, reducedMotion, scrubToProgress, unlockWheelStep],
   );
 
   const handleRailPointerMove = useCallback(
@@ -632,14 +606,12 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
       event.preventDefault();
       markUserInteraction();
 
-      if (shouldUseFastGesture(deltaY)) {
-        clearScrollStopTimer();
-        wheelGestureRef.current = { startedAt: performance.now(), delta: 0 };
-        step(deltaY > 0 ? 1 : -1);
+      if (wheelStepLockedRef.current || playingRef.current) {
         return;
       }
 
-      scrubByWheelDelta(deltaY);
+      lockWheelStep();
+      step(deltaY > 0 ? 1 : -1);
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -664,49 +636,119 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
         return;
       }
 
-      markUserInteraction();
-      touchStartYRef.current = event.touches[0]?.clientY ?? null;
-    };
+      const startY = event.touches[0]?.clientY;
 
-    const handleTouchEnd = (event: TouchEvent) => {
-      if (event.target instanceof Element && event.target.closest(".chapter-video-rail")) {
-        touchStartYRef.current = null;
+      if (startY === undefined) {
         return;
       }
 
-      const startY = touchStartYRef.current;
-      const endY = event.changedTouches[0]?.clientY;
-      touchStartYRef.current = null;
+      markUserInteraction();
+      touchGestureRef.current = {
+        startY,
+        startProgress: railProgressRef.current,
+        startedAt: performance.now(),
+        scrubbing: false,
+      };
+    };
 
-      if (startY === null || endY === undefined || Math.abs(startY - endY) < touchThreshold) {
+    const handleTouchMove = (event: TouchEvent) => {
+      if (event.target instanceof Element && event.target.closest(".chapter-video-rail")) {
+        return;
+      }
+
+      const gesture = touchGestureRef.current;
+      const currentY = event.touches[0]?.clientY;
+
+      if (!gesture || currentY === undefined) {
+        return;
+      }
+
+      const elapsed = performance.now() - gesture.startedAt;
+      const deltaY = gesture.startY - currentY;
+
+      if (!gesture.scrubbing && elapsed < touchHoldScrubDelayMs) {
         return;
       }
 
       event.preventDefault();
-      step(startY > endY ? 1 : -1);
+
+      if (!gesture.scrubbing) {
+        unlockWheelStep();
+        gesture.scrubbing = true;
+      }
+
+      scrubToProgress(getTouchDragProgress(gesture.startProgress, deltaY, stages.length, window.innerHeight), true);
+    };
+
+    const handleTouchEnd = (event: TouchEvent) => {
+      if (event.target instanceof Element && event.target.closest(".chapter-video-rail")) {
+        touchGestureRef.current = null;
+        return;
+      }
+
+      const gesture = touchGestureRef.current;
+      const endY = event.changedTouches[0]?.clientY;
+      touchGestureRef.current = null;
+
+      if (!gesture || endY === undefined) {
+        return;
+      }
+
+      const deltaY = gesture.startY - endY;
+      const distance = Math.abs(deltaY);
+      const duration = Math.max(1, performance.now() - gesture.startedAt);
+      const velocity = distance / duration;
+
+      if (gesture.scrubbing) {
+        event.preventDefault();
+        finishFreeScrub();
+        return;
+      }
+
+      if (
+        distance >= touchFlickMinDistance &&
+        velocity >= touchFlickVelocity &&
+        !wheelStepLockedRef.current &&
+        !playingRef.current
+      ) {
+        event.preventDefault();
+        lockWheelStep();
+        step(deltaY > 0 ? 1 : -1);
+      }
+    };
+
+    const handleTouchCancel = () => {
+      touchGestureRef.current = null;
+      finishFreeScrub();
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
     window.addEventListener("touchend", handleTouchEnd, { passive: false });
+    window.addEventListener("touchcancel", handleTouchCancel);
 
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleTouchEnd);
-      clearScrollStopTimer();
+      window.removeEventListener("touchcancel", handleTouchCancel);
+      unlockWheelStep();
       stopAnimation();
     };
   }, [
-    clearScrollStopTimer,
+    finishFreeScrub,
+    lockWheelStep,
     markUserInteraction,
     reducedMotion,
-    scrubByWheelDelta,
-    shouldUseFastGesture,
+    scrubToProgress,
+    stages.length,
     step,
     stopAnimation,
+    unlockWheelStep,
   ]);
 
   if (reducedMotion) {
