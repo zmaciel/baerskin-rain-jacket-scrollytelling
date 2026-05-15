@@ -158,6 +158,10 @@ p {
   transition: height 80ms linear;
 }
 
+.chapter-video-rail.is-scrubbing::after {
+  transition: none;
+}
+
 .chapter-video-dot {
   position: relative;
   z-index: 1;
@@ -210,6 +214,10 @@ p {
   transition:
     top 80ms linear,
     transform 160ms ease;
+}
+
+.chapter-video-rail.is-scrubbing .chapter-video-thumb {
+  transition: transform 160ms ease;
 }
 
 .chapter-video-rail:hover .chapter-video-thumb {

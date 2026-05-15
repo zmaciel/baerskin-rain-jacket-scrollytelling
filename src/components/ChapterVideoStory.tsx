@@ -12,10 +12,14 @@ type ChapterVideoStoryProps = {
   stages: ChapterVideoStage[];
 };
 
-const wheelThreshold = 14;
 const touchThreshold = 38;
 const chapterPlaybackRate = 1.25;
 const pausePadding = 0.035;
+const slowScrubSecondsPerWheelPixel = 0.018;
+const fastGestureDelta = 95;
+const fastGestureWindowMs = 140;
+const scrollStopSettleMs = 450;
+const magneticChapterProgress = 0.08;
 
 function useReducedMotionPreference() {
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -76,6 +80,33 @@ function getTimeForRailProgress(progress: number, stages: ChapterVideoStage[]) {
   return startTime + (endTime - startTime) * segmentProgress;
 }
 
+function getNearestChapterIndex(progress: number, stages: ChapterVideoStage[]) {
+  return clampIndex(Math.round(progress * Math.max(0, stages.length - 1)), stages);
+}
+
+function getMagneticChapterIndex(progress: number, stages: ChapterVideoStage[]) {
+  if (stages.length <= 1) {
+    return 0;
+  }
+
+  const exactIndex = Math.min(stages.length - 1, Math.max(0, progress * (stages.length - 1)));
+  const nearestIndex = Math.round(exactIndex);
+
+  return Math.abs(exactIndex - nearestIndex) <= magneticChapterProgress ? nearestIndex : null;
+}
+
+function getWheelDeltaY(event: WheelEvent) {
+  if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) {
+    return event.deltaY * 16;
+  }
+
+  if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) {
+    return event.deltaY * window.innerHeight;
+  }
+
+  return event.deltaY;
+}
+
 function formatStageId(id: string) {
   return id.replaceAll("-", " ");
 }
@@ -105,16 +136,21 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const railRef = useRef<HTMLDivElement | null>(null);
   const activeIndexRef = useRef(0);
+  const railProgressRef = useRef(0);
   const playingRef = useRef(false);
   const rafRef = useRef<number | null>(null);
+  const scrollStopTimerRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
   const railDragRef = useRef<{ pointerId: number; progress: number } | null>(null);
+  const wheelGestureRef = useRef<{ startedAt: number; delta: number }>({ startedAt: 0, delta: 0 });
+  const scrubbingRef = useRef(false);
   const autoIntroStartedRef = useRef(false);
   const userInteractedRef = useRef(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [railProgress, setRailProgress] = useState(0);
   const [isRailDragging, setIsRailDragging] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isScrubbing, setIsScrubbing] = useState(false);
   const [hasFrame, setHasFrame] = useState(false);
   const reducedMotion = useReducedMotionPreference();
   const isFinalChapter = activeIndex === stages.length - 1 && railProgress >= 0.995 && !isPlaying;
@@ -125,6 +161,7 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
   const syncRailProgress = useCallback((progress: number) => {
     const nextProgress = Math.min(1, Math.max(0, progress));
 
+    railProgressRef.current = nextProgress;
     railRef.current?.style.setProperty("--chapter-progress", String(nextProgress));
     setRailProgress(nextProgress);
   }, []);
@@ -156,18 +193,28 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
     }
   }, []);
 
+  const clearScrollStopTimer = useCallback(() => {
+    if (scrollStopTimerRef.current !== null) {
+      window.clearTimeout(scrollStopTimerRef.current);
+      scrollStopTimerRef.current = null;
+    }
+  }, []);
+
   const settleAt = useCallback(
     (index: number) => {
       const video = videoRef.current;
       const nextIndex = clampIndex(index, stages);
       const nextTime = stages[nextIndex]?.time ?? 0;
 
+      clearScrollStopTimer();
       stopAnimation();
       playingRef.current = false;
+      scrubbingRef.current = false;
       activeIndexRef.current = nextIndex;
       setActiveIndex(nextIndex);
       syncRailProgress(stages.length > 1 ? nextIndex / (stages.length - 1) : 0);
       setIsPlaying(false);
+      setIsScrubbing(false);
 
       if (video) {
         video.pause();
@@ -175,20 +222,22 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
         video.currentTime = Math.min(config.duration - 0.05, nextTime);
       }
     },
-    [config.duration, stages, stopAnimation, syncRailProgress],
+    [clearScrollStopTimer, config.duration, stages, stopAnimation, syncRailProgress],
   );
 
   const scrubToProgress = useCallback(
-    (progress: number) => {
+    (progress: number, scrubbing = false) => {
       const video = videoRef.current;
       const boundedProgress = Math.min(1, Math.max(0, progress));
-      const nearestIndex = clampIndex(Math.round(boundedProgress * (stages.length - 1)), stages);
+      const nearestIndex = getNearestChapterIndex(boundedProgress, stages);
 
       stopAnimation();
       playingRef.current = false;
+      scrubbingRef.current = scrubbing;
       activeIndexRef.current = nearestIndex;
       setActiveIndex(nearestIndex);
       setIsPlaying(false);
+      setIsScrubbing(scrubbing);
       syncRailProgress(boundedProgress);
 
       if (video) {
@@ -199,6 +248,73 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
     },
     [config.duration, stages, stopAnimation, syncRailProgress],
   );
+
+  const settleNearChapter = useCallback(() => {
+    const magneticIndex = getMagneticChapterIndex(railProgressRef.current, stages);
+
+    if (magneticIndex === null) {
+      scrubbingRef.current = false;
+      setIsScrubbing(false);
+      return;
+    }
+
+    settleAt(magneticIndex);
+  }, [settleAt, stages]);
+
+  const scheduleScrollStopSettle = useCallback(() => {
+    clearScrollStopTimer();
+
+    scrollStopTimerRef.current = window.setTimeout(() => {
+      scrollStopTimerRef.current = null;
+
+      if (!playingRef.current && scrubbingRef.current && !railDragRef.current) {
+        settleNearChapter();
+      }
+    }, scrollStopSettleMs);
+  }, [clearScrollStopTimer, settleNearChapter]);
+
+  const scrubByWheelDelta = useCallback(
+    (deltaY: number) => {
+      const video = videoRef.current;
+
+      if (!video || stages.length < 2) {
+        return;
+      }
+
+      const startTime = stages[0]?.time ?? 0;
+      const finalStageTime = stages[stages.length - 1]?.time ?? config.duration;
+      const endTime = Math.min(config.duration - 0.05, finalStageTime);
+      const nextTime = Math.min(endTime, Math.max(startTime, video.currentTime + deltaY * slowScrubSecondsPerWheelPixel));
+
+      video.pause();
+      video.playbackRate = 1;
+      video.currentTime = nextTime;
+      scrubToProgress(getRailProgress(nextTime, stages), true);
+      scheduleScrollStopSettle();
+    },
+    [config.duration, scheduleScrollStopSettle, scrubToProgress, stages],
+  );
+
+  const shouldUseFastGesture = useCallback((deltaY: number) => {
+    const now = performance.now();
+    const previousGesture = wheelGestureRef.current;
+    const previousDirection = Math.sign(previousGesture.delta);
+    const nextDirection = Math.sign(deltaY);
+
+    if (
+      now - previousGesture.startedAt > fastGestureWindowMs ||
+      (previousDirection !== 0 && nextDirection !== 0 && previousDirection !== nextDirection)
+    ) {
+      wheelGestureRef.current = { startedAt: now, delta: deltaY };
+    } else {
+      wheelGestureRef.current = {
+        startedAt: previousGesture.startedAt || now,
+        delta: previousGesture.delta + deltaY,
+      };
+    }
+
+    return Math.abs(deltaY) >= fastGestureDelta || Math.abs(wheelGestureRef.current.delta) >= fastGestureDelta;
+  }, []);
 
   const animateBackward = useCallback(
     (nextIndex: number) => {
@@ -282,11 +398,14 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
         return;
       }
 
+      clearScrollStopTimer();
       stopAnimation();
       video.pause();
       video.playbackRate = 1;
       playingRef.current = false;
+      scrubbingRef.current = false;
       setIsPlaying(false);
+      setIsScrubbing(false);
 
       if (Math.abs(video.currentTime - targetTime) <= pausePadding) {
         settleAt(clampedIndex);
@@ -303,7 +422,7 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
 
       animateBackward(clampedIndex);
     },
-    [animateBackward, playForward, reducedMotion, settleAt, stages, stopAnimation],
+    [animateBackward, clearScrollStopTimer, playForward, reducedMotion, settleAt, stages, stopAnimation],
   );
 
   const step = useCallback(
@@ -332,9 +451,10 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
       event.currentTarget.setPointerCapture(event.pointerId);
       railDragRef.current = { pointerId: event.pointerId, progress: nextProgress };
       setIsRailDragging(true);
-      scrubToProgress(nextProgress);
+      clearScrollStopTimer();
+      scrubToProgress(nextProgress, true);
     },
-    [getProgressFromRailPointer, markUserInteraction, reducedMotion, scrubToProgress],
+    [clearScrollStopTimer, getProgressFromRailPointer, markUserInteraction, reducedMotion, scrubToProgress],
   );
 
   const handleRailPointerMove = useCallback(
@@ -354,7 +474,7 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
       event.preventDefault();
       event.stopPropagation();
       drag.progress = nextProgress;
-      scrubToProgress(nextProgress);
+      scrubToProgress(nextProgress, true);
     },
     [getProgressFromRailPointer, scrubToProgress],
   );
@@ -376,8 +496,9 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
 
       railDragRef.current = null;
       setIsRailDragging(false);
+      settleNearChapter();
     },
-    [],
+    [settleNearChapter],
   );
 
   const handleRailKeyDown = useCallback(
@@ -502,13 +623,23 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
     }
 
     const handleWheel = (event: WheelEvent) => {
-      if (Math.abs(event.deltaY) < wheelThreshold) {
+      const deltaY = getWheelDeltaY(event);
+
+      if (Math.abs(deltaY) < 0.5) {
         return;
       }
 
       event.preventDefault();
       markUserInteraction();
-      step(event.deltaY > 0 ? 1 : -1);
+
+      if (shouldUseFastGesture(deltaY)) {
+        clearScrollStopTimer();
+        wheelGestureRef.current = { startedAt: performance.now(), delta: 0 };
+        step(deltaY > 0 ? 1 : -1);
+        return;
+      }
+
+      scrubByWheelDelta(deltaY);
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -565,9 +696,18 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchend", handleTouchEnd);
+      clearScrollStopTimer();
       stopAnimation();
     };
-  }, [markUserInteraction, reducedMotion, step, stopAnimation]);
+  }, [
+    clearScrollStopTimer,
+    markUserInteraction,
+    reducedMotion,
+    scrubByWheelDelta,
+    shouldUseFastGesture,
+    step,
+    stopAnimation,
+  ]);
 
   if (reducedMotion) {
     return (
@@ -589,7 +729,10 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
   }
 
   return (
-    <section className={`chapter-video-shell ${isPlaying ? "is-playing" : ""}`} aria-label="Chaptered rain jacket product film">
+    <section
+      className={`chapter-video-shell ${isPlaying ? "is-playing" : ""} ${isScrubbing ? "is-scrubbing" : ""}`}
+      aria-label="Chaptered rain jacket product film"
+    >
       <Image
         alt=""
         className={`chapter-video-poster ${hasFrame ? "is-hidden" : ""}`}
@@ -622,7 +765,7 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
       </div>
       <div
         ref={railRef}
-        className={`chapter-video-rail ${isRailDragging ? "is-dragging" : ""}`}
+        className={`chapter-video-rail ${isRailDragging ? "is-dragging" : ""} ${isScrubbing ? "is-scrubbing" : ""}`}
         aria-label="Video timeline"
         aria-orientation="vertical"
         aria-valuemax={100}
