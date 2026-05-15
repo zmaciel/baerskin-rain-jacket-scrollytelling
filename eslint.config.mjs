@@ -8,7 +8,6 @@ const eslintConfig = [
       "node_modules/**",
       "out/**",
       "dist/**",
-      "source-data/**",
       "public/**",
     ],
   },
