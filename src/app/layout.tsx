@@ -3,12 +3,12 @@ import "./globals.css";
 import { productOffer } from "@/lib/baerskin-content";
 
 export const metadata: Metadata = {
-  title: `${productOffer.productName} | Interactive Product Reveal`,
+  title: `${productOffer.productName} | Scroll-Controlled Product Film`,
   description:
-    "An interactive scrollytelling product reveal for the BÆRSkin Heavy-Storm Waterproof Rain Jacket 2.0.",
+    "A scroll-controlled product film for the BÆRSkin Heavy-Storm Waterproof Rain Jacket 2.0.",
   openGraph: {
     title: productOffer.productName,
-    description: "A scroll-controlled product rig for the BÆRSkin Heavy-Storm Waterproof Rain Jacket 2.0.",
+    description: "A scroll-controlled product film for the BÆRSkin Heavy-Storm Waterproof Rain Jacket 2.0.",
   },
 };
 
