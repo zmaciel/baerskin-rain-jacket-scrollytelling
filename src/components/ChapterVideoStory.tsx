@@ -16,6 +16,7 @@ const chapterPlaybackRate = 1.25;
 const pausePadding = 0.035;
 const wheelStepUnlockMs = 900;
 const touchHoldScrubDelayMs = 140;
+const touchHoldScrubSpeed = 3.25;
 const touchFlickMinDistance = 42;
 const touchFlickVelocity = 0.52;
 const magneticChapterProgress = 0.08;
@@ -119,7 +120,7 @@ function getTouchDragProgress(startProgress: number, deltaY: number, stageCount:
   }
 
   const pixelsPerChapter = Math.max(320, viewportHeight);
-  const chapterDelta = deltaY / pixelsPerChapter;
+  const chapterDelta = (deltaY / pixelsPerChapter) * touchHoldScrubSpeed;
 
   return Math.min(1, Math.max(0, startProgress + chapterDelta / (stageCount - 1)));
 }
