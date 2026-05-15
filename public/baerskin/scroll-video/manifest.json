@@ -1,0 +1,14 @@
+{
+  "source": "PFV Rain Jacket April Meta 9x16 (1).mp4",
+  "duration": 23.291667,
+  "sourceWidth": 1080,
+  "sourceHeight": 1920,
+  "frameCount": 93,
+  "fps": 4,
+  "width": 720,
+  "aspectRatio": 0.5625,
+  "format": "jpg",
+  "framePattern": "/baerskin/scroll-video/frames/frame-%04d.jpg",
+  "poster": "/baerskin/scroll-video/frames/frame-0001.jpg",
+  "generatedAt": "2026-05-15T10:27:14.870Z"
+}

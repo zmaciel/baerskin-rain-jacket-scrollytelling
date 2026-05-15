@@ -1,0 +1,12 @@
+.next/
+node_modules/
+out/
+output/
+dist/
+.vercel/
+.superpowers/
+.env*
+!.env.example
+*.tsbuildinfo
+*.log
+.DS_Store

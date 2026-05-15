@@ -1,0 +1,483 @@
+- link "Skip to main content":
+  - /url: "#main-content"
+- main:
+  - paragraph:
+    - text: STAND A CHANCE TO
+    - strong: WIN A NEW JEEP GLADIATOR
+    - text: "- OR $100,000 CASH"
+  - img "20260112_142421481-bs-rain-jacket-logo-white-outlined-2.svg"
+  - navigation "Main navigation":
+    - link "Our Innovation":
+      - /url: "#our-innovation"
+    - link "Faq":
+      - /url: "#faq"
+    - link "Reviews":
+      - /url: "#reviews"
+    - button "About us"
+  - 'button "May 14: -60% OFF ❱ Select Size Now"':
+    - 'link "May 14: -60% OFF ❱ Select Size Now"':
+      - /url: /us/lp/rainjacket/checkout
+      - generic: "May 14: -60% OFF ❱ Select Size Now"
+  - heading "Stay 100% Dry In Sudden Rain. Get The Ultimate Packable Rain Jacket for Fishing, Golf, Hunting, Camping or Boating." [level=1]
+  - region "Carousel _R_q2mlt9f6bsnpfiudb_":
+    - button "Scroll left":
+    - button "Scroll right":
+    - list:
+      - button "Slide 1 of 13":
+        - img "Man wearing teal waterproof rain jacket outdoors with mountains behind him, adjusting collar. Inset shows jacket packed into a compact pouch."
+      - button "Slide 2 of 13":
+        - img "Man wearing open yellow BÆRSkin 3-in-1 waterproof jacket over olive fleece hoodie, with closeup showing modular dual-zip attachment system"
+      - button "Slide 3 of 13":
+        - img "BAERSkin navy hooded rain jacket with full zip closure and PFAS-free water repellent coating, shown against a lab background"
+      - button "Slide 4 of 13":
+        - img "BÆRSkin teal waterproof jacket worn by a man, with callouts highlighting adjustable hood, sealed seams, waterproof zips, 5 pockets, adjustable wrists and waist, and packable design"
+      - button "Slide 5 of 13":
+        - img "Diagram of 2.5 layer fabric design showing Bær-Tex water repellent coating, 100% ripstop laminated film, and protective inner layer rated to 20,000mm"
+      - button "Slide 6 of 13":
+        - img "Hands opening a silicone-sealed waterproof zipper pocket on a yellow jacket, highlighting the 5 waterproof pockets feature"
+      - button "Slide 7 of 13":
+        - img "Close-up of BÆRSkin dark hooded jacket with water droplets beading on the ripstop fabric, highlighting the Bær-Tex water repellent coating"
+      - button "Slide 8 of 13":
+        - img "Close-up of gray waterproof fabric showing heat-sealed and taped inner seams with text highlighting waterproofing for heavy rain"
+      - button "Slide 9 of 13":
+        - img "Man adjusting the hood zipper of a teal water-resistant jacket with rain droplets visible on the fabric"
+      - button "Slide 10 of 13":
+        - img "Man wearing a yellow rain jacket with an extended-peak protective hood featuring drawcord adjusters, shown outdoors with mountains in background"
+      - button "Slide 11 of 13":
+        - img "Man wearing black BÆRSkin hooded packable jacket, holding jacket packed into its small zip pocket, sized 4x6 inches"
+      - button "Slide 12 of 13":
+        - img "Man wearing a black BÆRSkin hooded packable rain jacket outdoors near a mountain lake, shown from the chest up"
+      - button "Slide 13 of 13":
+        - img "Man wearing navy BÆRSkin waterproof hooded jacket and orange knit beanie outdoors in a natural landscape setting"
+    - list:
+      - button "Go to slide 1":
+        - img "Man wearing teal waterproof rain jacket outdoors with mountains behind him, adjusting collar. Inset shows jacket packed into a compact pouch."
+      - button "Go to slide 2":
+        - img "Man wearing open yellow BÆRSkin 3-in-1 waterproof jacket over olive fleece hoodie, with closeup showing modular dual-zip attachment system"
+      - button "Go to slide 3":
+        - img "BAERSkin navy hooded rain jacket with full zip closure and PFAS-free water repellent coating, shown against a lab background"
+      - button "Go to slide 4":
+        - img "BÆRSkin teal waterproof jacket worn by a man, with callouts highlighting adjustable hood, sealed seams, waterproof zips, 5 pockets, adjustable wrists and waist, and packable design"
+      - button "Go to slide 5":
+        - img "Diagram of 2.5 layer fabric design showing Bær-Tex water repellent coating, 100% ripstop laminated film, and protective inner layer rated to 20,000mm"
+      - button "Go to slide 6":
+        - img "Hands opening a silicone-sealed waterproof zipper pocket on a yellow jacket, highlighting the 5 waterproof pockets feature"
+      - button "Go to slide 7":
+        - img "Close-up of BÆRSkin dark hooded jacket with water droplets beading on the ripstop fabric, highlighting the Bær-Tex water repellent coating"
+      - button "Go to slide 8":
+        - img "Close-up of gray waterproof fabric showing heat-sealed and taped inner seams with text highlighting waterproofing for heavy rain"
+      - button "Go to slide 9":
+        - img "Man adjusting the hood zipper of a teal water-resistant jacket with rain droplets visible on the fabric"
+      - button "Go to slide 10":
+        - img "Man wearing a yellow rain jacket with an extended-peak protective hood featuring drawcord adjusters, shown outdoors with mountains in background"
+      - button "Go to slide 11":
+        - img "Man wearing black BÆRSkin hooded packable jacket, holding jacket packed into its small zip pocket, sized 4x6 inches"
+      - button "Go to slide 12":
+        - img "Man wearing a black BÆRSkin hooded packable rain jacket outdoors near a mountain lake, shown from the chest up"
+      - button "Go to slide 13":
+        - img "Man wearing navy BÆRSkin waterproof hooded jacket and orange knit beanie outdoors in a natural landscape setting"
+  - heading "Stay 100% Dry In Sudden Rain. Get The Ultimate Packable Rain Jacket for Fishing, Golf, Hunting, Camping or Boating." [level=3]
+  - blockquote:
+    - paragraph: “This rain jacket keeps me prepared for whatever - packs away into a tiny pouch, and seriously blocks rain too. Love it.”
+    - paragraph: "- David H. , USA"
+  - generic: Excellent
+  - img "4.5 out of 5 star rating on Trustpilot"
+  - strong: 52,678
+  - text: reviews on
+  - img "Trustpilot"
+  - generic: Rated Excellent. 4.5 out of 5. 52,678 reviews on Trustpilot
+  - generic: Click to view the company's Trustpilot profile
+  - list:
+    - strong: "Hiking-Grade Waterproof:"
+    - text: 20k Waterproof rating with 2.5 layer design, taped seams, protective outer shell + BÆR-Tex water repellent coating.
+    - strong: "Packs Down Small:"
+    - text: Folds tight into its own pocket (easily fits in your backpack), ultra-light and flexible for spring showers or heavy rain.
+    - strong: "RAIN-SULATION Design:"
+    - text: Adjustable toggles on the wrists, waist and hood to seal every inch and keep you bone dry in sideways rain.
+    - strong: "5 Waterproof Pockets:"
+    - text: Keep your gear dry with two waist pockets, one shoulder pocket + two secret pockets on the inside.
+    - strong: "Perfect Outer Layer Fit:"
+    - text: Slightly oversized to accommodate your layers below — perfect for working, hiking, cycling or commuting in the rain.
+  - 'link "May 14: -60% OFF ❱ Select Size Now"':
+    - /url: /us/lp/rainjacket/checkout
+    - generic: "May 14: -60% OFF ❱ Select Size Now"
+  - img "Visa"
+  - img "Mastercard"
+  - img "American Express"
+  - img "Discover"
+  - img "Apple Pay"
+  - img "Google Pay"
+  - img "baerskin-rain-jacket-summer-2026-infographic-01.jpg"
+  - heading "Rain Cancelled Your Plans? This Jacket Cancels Rain." [level=2]
+  - paragraph: Unexpected rain can ruin a nice day out - so you need to make sure you have a packable rain jacket on hand.
+  - paragraph
+  - paragraph:
+    - text: That's why we designed the BÆRSkin Heavy-Storm Rain Jacket 2.0 to insulate your clothes like a dry-storage vault. Every zip is sealed. Every stitch is taped with silicone. Engineered with our
+    - strong: proprietary BÆR-Tex Water Repellent Coating.
+  - paragraph:
+    - strong
+  - list:
+    - strong: 20,000mm Waterproof Rating
+    - text: allows this jacket to keep you 100% dry even in heavier storms.
+    - strong: Secure Dry Storage
+    - text: no matter how hard it rains, from a shower to a downright storm.
+    - strong: Waterproof Central Zip
+    - text: is sealed to perfection with a hidden storm flap to lock out the worst rain.
+  - heading "The Heavy-Duty Packable Rain Jacket That's Light & Versatile for Fishing, Golf, Hunting, Camping or Boating." [level=3]
+  - paragraph: Get the ultimate rain jacket for extreme performance in light or heavy rain - that's still light, packable and flexible enough to wear for any activity.
+  - img "BÆR-Tex Water Repellent Coating"
+  - heading "BÆR-Tex Water Repellent Coating" [level=5]
+  - paragraph: 20,000mm waterproof rating to stay dry when you're commuting, cycling, camping or hiking in sudden rain storms.
+  - img "RAIN-SULATION Design"
+  - heading "RAIN-SULATION Design" [level=5]
+  - paragraph: Fully adjustable waist, wrists and hood for perfect insulation when the wind gets nasty too - no more leaks in sideways rain!
+  - img "Folds Away Into a Pocket"
+  - heading "Folds Away Into a Pocket" [level=5]
+  - paragraph: Our jacket folds into its own stash pocket, making it highly packable without taking up extra space in your backpack.
+  - img "Zips into the BÆRSkin Hoodie"
+  - heading "Zips into the BÆRSkin Hoodie" [level=5]
+  - paragraph: Features a two-zip system which allows the inner zip of the rain jacket to attach to the new BÆRSkin Hoodie.
+  - img "baerskin-rain-jacket-summer-2026-content-image-01.jpg"
+  - heading "Zips into The BÆRSkin Hoodie for the Ultimate 3-in-1 Waterproof Outdoor Hoodie." [level=2]
+  - paragraph: The brand new two-zip system of the Heavy-Storm Rain Jacket allows you to attach the BÆRSkin Hoodie to the inner zip of the Heavy-Storm Rain Jacket- while the outer waterproof zip seals the entire garment to create a 3-in-1 Waterproof Outdoor Hoodie that perfect for getting work done outdoors.
+  - paragraph
+  - list:
+    - listitem: Easily attach the BÆRSkin Hoodie to the inner zip.
+    - listitem: Use the outer zip to seal in the rain jacket and protect your hoodie.
+    - listitem: Feel the snug warmth of 340gsm of BÆRSkin MicroFleece on the inside of your Rain Jacket.
+  - paragraph
+  - paragraph: This allows your BÆRSkin Hoodie to become a breathable mid-layer that prevents "wet out" while your Heavy-Storm Rain Jacket sends water droplets running!
+  - img "baerskin-rain-jacket-summer-2026-content-image-02.jpg"
+  - heading "Stay Mobile, Stay Dry — Stay Ready." [level=2]
+  - paragraph: On top of the water-repellent excellence, this jacket is made with 100% Polyester Ripstop Fabric - prevents tears, rips, and stops your jacket from absorbing dirt & mud.
+  - paragraph
+  - paragraph:
+    - strong: So, what does RAIN-SULATION mean?
+  - paragraph
+  - list:
+    - listitem: Adjustable wrist + waist toggles to seal out the wind and rain.
+    - listitem: 100% Waterproof front zip and storm flap that's 100% watertight, sealed with silicone.
+    - listitem: Fully adjustable hood with a brim to shield your eyes, stays tight and never allows water in your face.
+  - img "baerskin-rain-jacket-summer-2026-content-image-03v2.jpg"
+  - heading "Lab-Tested. Free from PFAS & \"Forever Chemicals\"." [level=2]
+  - paragraph: Most outdoor brands use PFAS in their water-repellent coating. PFAS are a group of synthetic chemicals, often called "forever chemicals" because they are highly persistent and don't break down - causing damage to the environment, and serious health concerns for the human body.
+  - paragraph
+  - paragraph: The U.S. Environmental Protection Agency (EPA) states that there is no safe level of PFAS exposure.
+  - paragraph
+  - list:
+    - listitem: That's why we rigorously test our garments with SGS - a Swiss multinational company headquartered in Geneva.
+    - listitem: Our BAER-Tex water-repellent coating is proven to be 100% free from PFAS and forever chemicals.
+    - listitem: That's our commitment to keeping you, and the natural world, safe.
+  - img "baerskin-rain-jacket-summer-2026-content-image-04.jpg"
+  - heading "Freedom to Move for Outdoor Activities - From City Streets to Mountain Peaks." [level=2]
+  - paragraph: Our signature BÆRSkin Rain Jacket Fit is purpose-designed to accommodate activities like Fishing, Golf, Hunting, Camping or Boating. It's like wearing a shield against the rain that you can whip out whenever you need it most!
+  - paragraph
+  - list:
+    - strong: Slightly oversized to fit perfectly
+    - text: over shirts, sweaters or jackets.
+    - strong: Unisex design
+    - text: means it's the perfect all-season gift for your family, or the work team.
+    - strong: Ideal for working outdoors
+    - text: when the weather turns bad, you can get insulated in seconds.
+  - img "01-rain-jacket-size-chart-v5-4XL.svg"
+  - heading "Every Size, Measured Inch-Perfect." [level=2]
+  - paragraph: Please note that our rain jacket is oversized to accommodate layering. To get your ideal size, take chest measurement and match it up with our sizing chart below — and remember, we also have easy exchanges and returns!
+  - paragraph
+  - list:
+    - strong: "Step 1:"
+    - text: Measure across your chest, under your armpits and around the back.
+    - strong: "Step 2:"
+    - text: Ensure that the tape is horizontal around the body, do not allow it to dip at the back.
+    - strong: "Step 3:"
+    - text: Match that measurement up with the size chart here and BOOM — the perfect fit is yours.
+  - heading "Watch How Easily the Heavy-Storm Rain Jacket Folds Into Its Own Pocket" [level=2]
+  - paragraph
+  - iframe
+  - paragraph: Over 9000 5-Star Reviews
+  - generic: Excellent
+  - img "4.5 out of 5 star rating on Trustpilot"
+  - strong: 52,678
+  - text: reviews on
+  - img "Trustpilot"
+  - generic: Rated Excellent. 4.5 out of 5. 52,678 reviews on Trustpilot
+  - generic: Click to view the company's Trustpilot profile
+  - heading "You Asked. We Answered." [level=5]
+  - term:
+    - button "What size should I get?":
+      - text: What size should I get?
+  - definition
+  - term:
+    - button "What is a 20,000mm Waterproof Rating?" [expanded]:
+      - text: What is a 20,000mm Waterproof Rating?
+  - definition:
+    - paragraph: The waterproof rating you see on fabrics (like 20,000mm) refers to the “hydrostatic head” — a measure of how much water pressure a fabric can withstand before leaking. To determine this, water is poured into a one-inch diameter tube placed on the fabric. A 20,000mm rating means the fabric can hold a 20-metre column of water before it begins to seep through.
+    - paragraph: That’s elite-level protection — enough to handle heavy, sustained rain and snow while staying breathable. The BÆRSkin Heavy-Storm Rain Jacket 2.0 exceeds industry standards in this test, offering twice the waterproof protection of typical high-performance jackets, while remaining light, flexible, and packable for any mission.
+  - term:
+    - button "What is the BÆRSkin Heavy-Storm Rain Jacket 2.0 made of?" [expanded]:
+      - text: What is the BÆRSkin Heavy-Storm Rain Jacket 2.0 made of?
+  - definition:
+    - generic: Our jacket is made from 100% Polyester ripstop fabric, ensuring maximum durability and waterproof protection.
+  - term:
+    - button "What is RAIN-SULATION Design?" [expanded]:
+      - text: What is RAIN-SULATION Design?
+  - definition:
+    - generic: RAINSULATION Design is our innovative approach to outdoor wear, combining the best of adjustable waterproof technology with bonded zips & seams to keep you dry and warm. With a waterproof outer and FULLY ADJUSTABLE Hood, Waist plus Wrist Cuffs, there is no way for the rain to get to you.
+  - term:
+    - button "What does the 2.5-layer feature mean?" [expanded]:
+      - text: What does the 2.5-layer feature mean?
+  - definition:
+    - generic: The 2.5-layer feature refers to the construction of the jacket. The first layer is a durable outer fabric. The second layer is a waterproof coating applied to the inside of the outer layer. The "half" layer is a protective layer that's sprayed on, enhancing the jacket's water repellency. This construction makes the jacket lightweight, flexible, and highly effective at keeping you dry.
+  - term:
+    - button "Can I adjust the fit of the BÆRSkin Heavy-Storm Rain Jacket 2.0?" [expanded]:
+      - text: Can I adjust the fit of the BÆRSkin Heavy-Storm Rain Jacket 2.0?
+  - definition:
+    - generic: Absolutely! Our jacket features an adjustable hood, wrist cuffs and waist for a customized, comfortable fit.
+  - term:
+    - button "How many pockets does the BÆRSkin Heavy-Storm Rain Jacket 2.0 have?" [expanded]:
+      - text: How many pockets does the BÆRSkin Heavy-Storm Rain Jacket 2.0 have?
+  - definition:
+    - generic: Our jacket features five pockets - two waist zip pockets on the outside, one shoulder pocket and two internal pockets, providing enough space for your essentials.
+  - term:
+    - button "How many velcro patches can I attach to the BÆRSkin Heavy-Storm Rain Jacket 2.0?" [expanded]:
+      - text: How many velcro patches can I attach to the BÆRSkin Heavy-Storm Rain Jacket 2.0?
+  - definition:
+    - generic: Our new Heavy-Storm Rain Jacket features a velcro morale patch above the shoulder pocket - so you can customise your jacket with your own velcro patches for some extra character! The velcro patch section is 3.15x2 inches in size
+  - term:
+    - button "How do I care for my BÆRSkin Heavy-Storm Rain Jacket 2.0?" [expanded]:
+      - text: How do I care for my BÆRSkin Heavy-Storm Rain Jacket 2.0?
+  - definition:
+    - paragraph: "To ensure the longevity and performance of your BÆRSkin jacket, follow these care instructions:"
+    - list:
+      - listitem: Secure all garment closures before washing.
+      - listitem: Use mild detergents only.
+      - listitem: Avoid fabric softeners as they can affect the jacket's water repellency.
+      - listitem: Wash on a cold, delicate cycle in your washing machine.
+      - listitem: Do not tumble dry. Instead, allow the jacket to air dry.
+      - listitem: Do not dry clean the jacket as this can damage the fabric and protective coatings.
+      - listitem: Avoid ironing the jacket to prevent damage to the fabric.
+      - listitem: Do not use bleach as it can degrade the fabric and coatings.
+  - term:
+    - button "How do I know my BÆRSkin Heavy-Storm Rain Jacket 2.0 will fit?" [expanded]:
+      - text: How do I know my BÆRSkin Heavy-Storm Rain Jacket 2.0 will fit?
+  - definition:
+    - generic: We spent months ensuring that our jackets fit perfectly across standard American sizes. Check our size guide to find your ideal size.
+  - term:
+    - button "Can I return my product?" [expanded]:
+      - text: Can I return my product?
+  - definition:
+    - generic: Yes, of course. We run a 60-day return window on all orders.
+  - term:
+    - button "When will my order arrive?" [expanded]:
+      - text: When will my order arrive?
+  - definition:
+    - paragraph:
+      - strong: "United States:"
+    - paragraph: We deliver nationwide from our warehouses in Kentucky & New Jersey. Any orders within the U.S. typically arrive in 2 to 9 business days. If an item is marked as a pre-order, it'll ship as soon as it's back in stock — and from there, expect the same quick 2–9 day delivery.
+    - paragraph
+    - paragraph
+    - paragraph:
+      - strong: "Other Countries:"
+    - paragraph: Due to high seasonal demand, we're working hard to deliver your gear within 6 to 14 days from the order date. Order now to secure your products before wait times increase. For pre-order items, delivery may take 6-14 days from the shipping date.
+  - term:
+    - button "How do I enter to win the Jeep Gladiator or $100,000 cash?" [expanded] [active]:
+      - text: How do I enter to win the Jeep Gladiator or $100,000 cash?
+  - definition:
+    - generic: Purchase this product between April 21st and June 4th and every dollar you spend automatically enters you. Every additional dollar spent is another entry. The winner will be announced on June 5th and gets to choose between the Jeep Gladiator or $100,000 cash. Open to US and Canada only. No purchase necessary - for alternative entry, full terms and official rules, visit sharedsweeps.com.
+  - region "Carousel _R_qmmlt9f6bsnpfiudb_":
+    - button "Scroll left":
+    - button "Scroll right":
+    - list:
+      - button "Slide 1 of 6":
+        - img "Man wearing BAERSkin navy hooded rain jacket with Rain-Sulation Design in wet conditions, hood up over orange beanie, water droplets visible on fabric"
+      - button "Slide 2 of 6":
+        - img "Man wearing a wet teal rain jacket with adjustable hood pulled up, hands gripping the hood drawcord toggle near the chin"
+      - button "Slide 3 of 6":
+        - img "Man wearing navy BAERSkin hooded rain jacket holding the jacket packed into its compact black inner pocket pouch"
+      - button "Slide 4 of 6":
+        - img "Close-up of hands adjusting a Velcro wrist cuff on a teal jacket, highlighting the adjustable wrist feature"
+      - button "Slide 5 of 6":
+        - img "Man wearing yellow rain jacket with adjustable hood and extended peak, shown pulling drawcord; dashed arrows highlight hood adjustment range"
+      - button "Slide 6 of 6":
+        - img "BÆRSkin teal hooded jacket sleeve detail showing a zippered arm pocket and removable embroidered bear logo patch"
+    - list:
+      - button "Go to slide 1":
+        - img "Man wearing BAERSkin navy hooded rain jacket with Rain-Sulation Design in wet conditions, hood up over orange beanie, water droplets visible on fabric"
+      - button "Go to slide 2":
+        - img "Man wearing a wet teal rain jacket with adjustable hood pulled up, hands gripping the hood drawcord toggle near the chin"
+      - button "Go to slide 3":
+        - img "Man wearing navy BAERSkin hooded rain jacket holding the jacket packed into its compact black inner pocket pouch"
+      - button "Go to slide 4":
+        - img "Close-up of hands adjusting a Velcro wrist cuff on a teal jacket, highlighting the adjustable wrist feature"
+      - button "Go to slide 5":
+        - img "Man wearing yellow rain jacket with adjustable hood and extended peak, shown pulling drawcord; dashed arrows highlight hood adjustment range"
+      - button "Go to slide 6":
+        - img "BÆRSkin teal hooded jacket sleeve detail showing a zippered arm pocket and removable embroidered bear logo patch"
+  - heading "BÆRSkin Heavy-Storm Rain Jacket 2.0 at a Glance" [level=3]
+  - generic: Excellent
+  - img "4.5 out of 5 star rating on Trustpilot"
+  - strong: 52,678
+  - text: reviews on
+  - img "Trustpilot"
+  - generic: Rated Excellent. 4.5 out of 5. 52,678 reviews on Trustpilot
+  - generic: Click to view the company's Trustpilot profile
+  - list:
+    - text: RAIN-SULATION Design
+    - text: 2.5 Layer Protection
+    - text: BÆR-Tex Water Repellent Coating
+    - text: 20,000mm Waterproof Rating
+    - text: Adjustable Hood & Extended Peak
+    - text: Two Waterproof Waist Pockets
+    - text: Two Wide Interior Pockets
+    - text: One Shoulder Pocket
+    - text: One Velcro Patch 3.15"x2"
+    - text: Folds Into Inner Pocket Pouch
+    - text: Waterproof Zip + Storm Flap
+    - text: Adjustable Waist, Wrists & Hood
+  - img "Promo"
+  - paragraph:
+    - generic: $⁠249.88
+  - paragraph:
+    - generic: $⁠99.95
+  - paragraph: Save 60%
+  - 'link "May 14: -60% OFF ❱ Select Size Now"':
+    - /url: /us/lp/rainjacket/checkout
+    - generic: "May 14: -60% OFF ❱ Select Size Now"
+  - img "Secure Order, 100% Quality, 100% Premium, Free Shipping"
+  - heading "Blocking Rain Like a Beast Around the World" [level=3]
+  - img "bs-rain-jacket-ugc-01.jpg"
+  - img "bs-rain-jacket-ugc-02.jpg"
+  - img "bs-rain-jacket-ugc-03.jpg"
+  - img "bs-rain-jacket-ugc-04.jpg"
+  - heading "Happy Customers From Around The World" [level=2]
+  - img "Jay Vazquez avatar"
+  - generic: Jay Vazquez
+  - link "trustpilot":
+    - /url: https://www.trustpilot.com/reviews/69fbe58742d063991caedb85
+    - img "trustpilot"
+  - generic: Love the hoodie and rain jacket 😍
+  - generic: May 7, 2026
+  - img "customer avatar"
+  - generic: customer
+  - link "trustpilot":
+    - /url: https://www.trustpilot.com/reviews/69fb9bbb084fb918fb6d7e2e
+    - img "trustpilot"
+  - generic: received rain jackets they are great ty
+  - generic: May 6, 2026
+  - img "Ormond Elam avatar"
+  - generic: Ormond Elam
+  - link "trustpilot":
+    - /url: https://www.trustpilot.com/reviews/69fa3c0783554aae25c85ea4
+    - img "trustpilot"
+  - generic: Ease of purchase. Bought the rain jacket and fleece hoodie. Rain jacket is a must for Alabama rain storms. The hoodie will be great during our three month fall/winter season
+  - button "Read more"
+  - generic: May 5, 2026
+  - img "Brice Hughes avatar"
+  - generic: Brice Hughes
+  - link "trustpilot":
+    - /url: https://www.trustpilot.com/reviews/69f8bce705a6660b0cb28ad9
+    - img "trustpilot"
+  - generic: Heavy duty materials, fine attention to details in construction, plenty of pockets. Love the way the outer rain jacket and inner fleece zip into each other.
+  - button "Read more"
+  - generic: May 4, 2026
+  - img "RL Hensley avatar"
+  - generic: RL Hensley
+  - link "trustpilot":
+    - /url: https://www.trustpilot.com/reviews/69f8b3a7bb4b02bcbf0b9f39
+    - img "trustpilot"
+  - generic: I got my hoodie and rain jacket in the mail together and then the American flag patch came later in the mail! Has my name been entered into the drawing for the new Jeep?
+  - button "Read more"
+  - generic: May 4, 2026
+  - img "Sean Cohen avatar"
+  - generic: Sean Cohen
+  - link "trustpilot":
+    - /url: https://www.trustpilot.com/reviews/69f8a8db3963ea1ee846561f
+    - img "trustpilot"
+  - generic: love both the fleece and the Rain jacket. Fits right.
+  - generic: May 4, 2026
+  - img "JERRY AGBAY avatar"
+  - generic: JERRY AGBAY
+  - link "trustpilot":
+    - /url: https://www.trustpilot.com/reviews/69f7913ced9c008450cc6293
+    - img "trustpilot"
+  - generic: The Baerskin Rain Jacket looks great . I know it will last long , it’s comfy and easy to carry , worth the price , delivered at the right time. ☝️👌
+  - button "Read more"
+  - generic: May 3, 2026
+  - img "Troy Dean Naugler avatar"
+  - generic: Troy Dean Naugler
+  - link "trustpilot":
+    - /url: https://www.trustpilot.com/reviews/69f7787448e6b5c8c34f6e8b
+    - img "trustpilot"
+  - generic: I really love Baerskin clothing grear I have the 3n1 rain jacket,pants and light weight hoodie. Going to order more this winter I was think the winter jacket.
+  - button "Read more"
+  - generic: May 3, 2026
+  - img "Matthew Lamb avatar"
+  - generic: Matthew Lamb
+  - link "trustpilot":
+    - /url: https://www.trustpilot.com/reviews/69f7419d18de171d6a18b48c
+    - img "trustpilot"
+  - generic: Love the product - Have three hoodies - two of the 340s and one 210 - and a rain jacket. Got exactly what I wanted and delivery was rapid.
+  - generic: May 3, 2026
+  - button "Load more"
+  - region "Veterans support":
+    - img "Fallen Outdoors Veteran logo"
+    - heading "BÆRSkin Supports The Fallen Outdoors Veteran Program" [level=5]
+    - paragraph: The Fallen Outdoors is an all-Veteran volunteer 501(c)(3) that connects Veterans to each other and to the great outdoors. The BÆRSkin Tactical Supply Co is proud to be able to support its incredible work by donating outdoor apparel to Veterans who want to reconnect with nature. The Fallen Outdoors is able to provide outdoor opportunities for Veterans, at no cost, thanks to donations and support from their communities.
+    - img "Hope For The Warriors logo"
+    - heading "BÆRSkin Supports Hope for the Warriors Veterans Charity" [level=5]
+    - paragraph: Hope For The Warriors is a 501(c)(3) nonprofit dedicated to restoring self, family, and HOPE for post-9/11 Veterans, service members, and military families. BÆRSkin Tactical Supply Co is proud to support its mission by donating high-quality outerwear to those who have sacrificed for our country. Through innovative programs, Hope For The Warriors provides critical support, helping these heroes regain strength, purpose, and connection. Thanks to donations and community support, they continue to make a lasting impact.
+  - paragraph: Jeep Promotion Powered By Shared Sweeps
+  - paragraph:
+    - text: "NO PURCHASE NECESSARY. Ends 6/4/26. Must be: i) a legal US resident of the 50 US or DC and age of majority or ii) a legal resident of Canada (excl. Quebec) and age of majority at time of entry. Subject to Official Rules available at"
+    - link "sharedsweeps.com/rules":
+      - /url: https://sharedsweeps.com/rules
+    - text: . Void where prohibited. Sponsored By Shared Sweeps.
+  - link "Baerskin Tactical home":
+    - /url: /us
+    - img "Baerskin Tactical Logo"
+  - generic: Excellent
+  - img "4.5 out of 5 star rating on Trustpilot"
+  - strong: 52,678
+  - text: reviews on
+  - img "Trustpilot"
+  - generic: Rated Excellent. 4.5 out of 5. 52,678 reviews on Trustpilot
+  - generic: Click to view the company's Trustpilot profile
+  - link "Call +1 769 223 7756":
+    - /url: tel:+17692237756
+    - text: +1 769 223 7756
+  - generic: Monday to Friday 9-5(EST)
+  - navigation "Footer navigation":
+    - heading "SUPPORT" [level=5]
+    - list:
+      - link "Find my order":
+        - /url: /us/order
+      - button "Open Shipping, Returns & Refunds in modal": Shipping, Returns & Refunds
+      - link "Contact Us":
+        - /url: /us/contact-us
+      - button "Open Privacy Policy in modal": Privacy Policy
+      - button "Open Secure Payments in modal": Secure Payments
+      - button "Open Terms & Conditions in modal": Terms & Conditions
+    - heading "LEARN" [level=5]
+    - list:
+      - button "Open Our Story in modal": Our Story
+      - button "Open Baerskin Stories in modal": Baerskin Stories
+      - button "Open Our Veterans Charities in modal": Our Veterans Charities
+    - heading "WORK WITH US" [level=5]
+    - list:
+      - link "Wholesale":
+        - /url: /us/wholesale
+      - link "Become a Retailer":
+        - /url: /us/retailers
+  - button "Select country":
+    - img "United States"
+    - generic: United States ($)
+  - img "Visa"
+  - img "Mastercard"
+  - img "American Express"
+  - img "Discover"
+  - img "Apple Pay"
+  - img "Google Pay"
+  - paragraph: © 2018-2026 Baerskin Tactical. All rights reserved.
+- alert
+- dialog "Cookie consent button":
+  - generic: 🍪
+- iframe
