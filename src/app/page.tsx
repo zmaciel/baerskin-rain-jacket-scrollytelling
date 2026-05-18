@@ -1,10 +1,16 @@
 import { ChapterVideoStory } from "@/components/ChapterVideoStory";
-import { chapterVideoConfig, chapterVideoStages, productOffer } from "@/lib/baerskin-content";
+import { chapterVideoConfig, chapterVideoStages, productFaqs, productOffer, productReviews } from "@/lib/baerskin-content";
 
 export default function Home() {
   return (
     <main className="video-only-page">
-      <ChapterVideoStory config={chapterVideoConfig} offer={productOffer} stages={chapterVideoStages} />
+      <ChapterVideoStory
+        config={chapterVideoConfig}
+        faqs={productFaqs}
+        offer={productOffer}
+        reviews={productReviews}
+        stages={chapterVideoStages}
+      />
     </main>
   );
 }

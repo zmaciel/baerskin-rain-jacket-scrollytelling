@@ -3,12 +3,14 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties, KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent } from "react";
-import type { ChapterVideoConfig, ChapterVideoStage, ProductOffer } from "@/lib/baerskin-content";
+import type { ChapterVideoConfig, ChapterVideoStage, FaqItem, ProductOffer, ProductReview } from "@/lib/baerskin-content";
 import { publicAssetPath } from "@/lib/public-asset-path";
 
 type ChapterVideoStoryProps = {
   config: ChapterVideoConfig;
+  faqs: FaqItem[];
   offer: ProductOffer;
+  reviews: ProductReview[];
   stages: ChapterVideoStage[];
 };
 
@@ -142,12 +144,14 @@ function getChapterLabel(id: string) {
     "shoulder-pocket": "Pocket",
     packable: "Packable",
     "end-state": "Offer",
+    "customer-proof": "Reviews",
+    faq: "FAQ",
   };
 
   return labels[id] ?? formatStageId(id);
 }
 
-export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryProps) {
+export function ChapterVideoStory({ config, faqs, offer, reviews, stages }: ChapterVideoStoryProps) {
   const videoSrc = publicAssetPath(config.src);
   const posterSrc = publicAssetPath(config.poster);
   const logoSrc = publicAssetPath("/baerskin/baerskin-logo.svg");
@@ -171,7 +175,11 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
   const [isScrubbing, setIsScrubbing] = useState(false);
   const [hasFrame, setHasFrame] = useState(false);
   const reducedMotion = useReducedMotionPreference();
-  const isFinalChapter = activeIndex === stages.length - 1 && railProgress >= 0.995 && !isPlaying;
+  const activeStage = stages[activeIndex];
+  const activePanel = activeStage?.panel;
+  const isOfferChapter = activeStage?.id === "end-state" && !isPlaying;
+  const isPanelChapter = activePanel !== undefined && !isPlaying;
+  const isLastChapter = activeIndex === stages.length - 1 && railProgress >= 0.995 && !isPlaying;
   const progressStyle = {
     "--chapter-progress": railProgress,
   } as CSSProperties;
@@ -232,7 +240,6 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
       const nextIndex = clampIndex(index, stages);
       const nextTime = stages[nextIndex]?.time ?? 0;
 
-      unlockWheelStep();
       stopAnimation();
       playingRef.current = false;
       scrubbingRef.current = false;
@@ -248,7 +255,7 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
         video.currentTime = Math.min(config.duration - 0.05, nextTime);
       }
     },
-    [config.duration, stages, stopAnimation, syncRailProgress, unlockWheelStep],
+    [config.duration, stages, stopAnimation, syncRailProgress],
   );
 
   const scrubToProgress = useCallback(
@@ -608,6 +615,7 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
       markUserInteraction();
 
       if (wheelStepLockedRef.current || playingRef.current) {
+        lockWheelStep();
         return;
       }
 
@@ -754,7 +762,7 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
 
   if (reducedMotion) {
     return (
-      <section className="chapter-video-shell" aria-label="Rain jacket film poster">
+      <section className="chapter-video-shell is-reduced" aria-label="Rain jacket proof and FAQ">
         <Image alt="BÆRSkin rain jacket video poster." fill priority sizes="100vw" src={posterSrc} />
         <div className="chapter-commerce-top">
           <span className="chapter-brand-logo">
@@ -767,13 +775,26 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
           <span>{offer.compareAtPrice} · 4.5/5 Trustpilot</span>
           <a href={offer.ctaUrl}>Shop Rain Jacket</a>
         </div>
+        <div className="chapter-reduced-content">
+          <h2>Excellent on Trustpilot</h2>
+          <p>4.5/5 from 53,186 reviews, with recent buyers calling out build quality, packability, and the hoodie zip-in system.</p>
+          <h2>You Asked. We Answered.</h2>
+          {faqs.slice(0, 4).map((item) => (
+            <details key={item.question}>
+              <summary>{item.question}</summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </div>
       </section>
     );
   }
 
   return (
     <section
-      className={`chapter-video-shell ${isPlaying ? "is-playing" : ""} ${isScrubbing ? "is-scrubbing" : ""}`}
+      className={`chapter-video-shell ${isPlaying ? "is-playing" : ""} ${isScrubbing ? "is-scrubbing" : ""} ${
+        isPanelChapter ? "has-panel" : ""
+      }`}
       aria-label="Chaptered rain jacket product film"
     >
       <Image
@@ -837,9 +858,73 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
           </span>
         ))}
       </div>
+      <div className={`chapter-story-panel chapter-reviews-panel ${activePanel === "reviews" ? "is-visible" : ""}`} aria-hidden={activePanel !== "reviews"}>
+        <div className="chapter-panel-inner">
+          <div className="chapter-panel-copy">
+            <p className="chapter-panel-eyebrow">{"{ Reviews }"}</p>
+            <h2>Proof from buyers who already took it into the rain.</h2>
+            <p>
+              The live page pairs an Excellent Trustpilot rating with recent buyers calling out construction, dry carry,
+              hoodie compatibility, and delivery.
+            </p>
+            <div className="chapter-panel-tags" aria-label="Review themes">
+              <span>Trustpilot</span>
+              <span>Rain jacket</span>
+              <span>Hoodie system</span>
+              <span>Packable</span>
+            </div>
+            <a className="chapter-panel-cta" href={offer.ctaUrl}>
+              Shop {offer.salePrice}
+            </a>
+          </div>
+          <div className="chapter-review-stack">
+            <div className="chapter-rating-card" aria-label="Trustpilot rating">
+              <span>Excellent</span>
+              <strong>4.5/5</strong>
+              <p>53,186 reviews</p>
+              <small>Over 9000 5-star reviews highlighted on the product page.</small>
+            </div>
+            {reviews.map((review, index) => (
+              <article className="chapter-review-card" key={`${review.name}-${review.date}`} style={{ "--card-index": index } as CSSProperties}>
+                <span>{review.tag}</span>
+                <p>{review.summary}</p>
+                <footer>
+                  <strong>{review.name}</strong>
+                  <small>{review.date}</small>
+                </footer>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className={`chapter-story-panel chapter-faq-panel ${activePanel === "faq" ? "is-visible" : ""}`} aria-hidden={activePanel !== "faq"}>
+        <div className="chapter-panel-inner chapter-faq-inner">
+          <div className="chapter-panel-copy">
+            <p className="chapter-panel-eyebrow">{"{ FAQ }"}</p>
+            <h2>You asked. The jacket answers.</h2>
+            <p>
+              Fit, waterproofing, pocket layout, and returns are handled here so the next action can stay simple.
+            </p>
+            <a className="chapter-panel-cta" href={offer.ctaUrl}>
+              Shop {offer.salePrice}
+            </a>
+          </div>
+          <div className="chapter-faq-list">
+            {faqs.map((item, index) => (
+              <article className="chapter-faq-item" key={item.question} style={{ "--card-index": index } as CSSProperties}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
       <button
         aria-label="Go to next video chapter"
-        className={`chapter-next-cue ${isFinalChapter ? "is-hidden" : ""}`}
+        className={`chapter-next-cue ${isLastChapter ? "is-hidden" : ""}`}
         onClick={() => {
           markUserInteraction();
           step(1);
@@ -848,15 +933,15 @@ export function ChapterVideoStory({ config, offer, stages }: ChapterVideoStoryPr
       >
         <span aria-hidden="true" />
       </button>
-      <a className={`chapter-sticky-cta ${isFinalChapter ? "is-hidden" : ""}`} href={offer.ctaUrl}>
+      <a className={`chapter-sticky-cta ${isOfferChapter || isPanelChapter ? "is-hidden" : ""}`} href={offer.ctaUrl}>
         <span>Shop now</span>
         <strong>{offer.salePrice}</strong>
       </a>
-      <div className={`chapter-final-offer ${isFinalChapter ? "is-visible" : ""}`} aria-hidden={!isFinalChapter}>
+      <div className={`chapter-final-offer ${isOfferChapter ? "is-visible" : ""}`} aria-hidden={!isOfferChapter}>
         <p>{offer.discountLabel}</p>
         <strong>{offer.salePrice}</strong>
         <span>
-          {offer.compareAtPrice} · 4.5/5 · 52,678 reviews
+          {offer.compareAtPrice} · 4.5/5 · 53,186 reviews
         </span>
         <a href={offer.ctaUrl}>Shop Rain Jacket</a>
       </div>
